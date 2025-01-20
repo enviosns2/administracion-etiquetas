@@ -3,10 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Aplicación web para la administración de etiquetas con generación de códigos de barras y PDF",
+  "description": "Proyecto para la administración de etiquetas",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "vite preview --port 3000",
     "lint": "eslint .",
     "preview": "vite preview --port $PORT"
   },
@@ -30,7 +31,7 @@
     "globals": "^15.0.0",
     "vite": "^4.3.9"
   },
-  "keywords": ["vite", "react", "etiquetas", "jsbarcode", "jspdf", "frontend", "react-app"],
-  "author": "TuNombre",
+  "keywords": ["vite", "react", "etiquetas", "jsbarcode", "jspdf"],
+  "author": "",
   "license": "ISC"
 }
