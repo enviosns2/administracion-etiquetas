@@ -11,9 +11,10 @@ const PackageForm = ({ onGenerateLabel }) => {
     dimensions: "",
     customDimensions: "",
     weight: "",
-    quantity: "", // Nuevo campo para cantidad
+    quantity: "", // Campo para cantidad
   });
 
+  // URL del backend desplegado en Render
   const API_URL = "https://administracion-etiquetas.onrender.com/api/packages";
 
   // Maneja los cambios en los campos del formulario
@@ -30,9 +31,9 @@ const PackageForm = ({ onGenerateLabel }) => {
     const clientPrefix = data.sender.slice(0, 3).toUpperCase(); // Primeras 3 letras del remitente
     const cityPrefix =
       data.city === "otro"
-        ? data.customCity.slice(0, 3).toUpperCase() // Primeras 3 letras de la ciudad personalizada
-        : data.city.slice(0, 3).toUpperCase(); // Primeras 3 letras de la ciudad seleccionada
-    const randomString = Math.random().toString(36).substring(2, 6).toUpperCase(); // 4 caracteres aleatorios
+        ? data.customCity.slice(0, 3).toUpperCase() // Ciudad personalizada
+        : data.city.slice(0, 3).toUpperCase(); // Ciudad seleccionada
+    const randomString = Math.random().toString(36).substring(2, 6).toUpperCase(); // Cadena aleatoria
 
     return `${clientPrefix}-${cityPrefix}-${timestamp}-${randomString}`;
   };
@@ -41,7 +42,7 @@ const PackageForm = ({ onGenerateLabel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación básica de campos
+    // Validación de campos obligatorios
     if (
       formData.sender &&
       formData.street &&
@@ -51,13 +52,12 @@ const PackageForm = ({ onGenerateLabel }) => {
       formData.weight &&
       formData.quantity
     ) {
-      // Generar el código único
       const uniqueCode = generateUniqueCode(formData);
 
-      // Construir los datos del paquete
+      // Construir el paquete con los datos del formulario
       const packageData = {
-        paquete_id: uniqueCode, // Asignar uniqueCode al paquete_id
-        uniqueCode, // También enviarlo como uniqueCode
+        paquete_id: uniqueCode,
+        uniqueCode,
         sender: formData.sender,
         street: formData.street,
         postalCode: formData.postalCode,
@@ -73,13 +73,16 @@ const PackageForm = ({ onGenerateLabel }) => {
       // Mostrar la etiqueta en el frontend
       onGenerateLabel(packageData);
 
-      // Guardar el paquete en la base de datos
+      // Enviar los datos al backend
       try {
         const response = await axios.post(API_URL, packageData);
         console.log("Paquete guardado en la base de datos:", response.data);
+        alert("Paquete guardado con éxito.");
       } catch (error) {
         console.error("Error al guardar el paquete:", error);
-        alert("Hubo un error al intentar guardar el paquete.");
+        alert(
+          "Hubo un error al intentar guardar el paquete. Por favor, intenta nuevamente."
+        );
       }
     } else {
       alert("Por favor, completa todos los campos.");
@@ -91,6 +94,7 @@ const PackageForm = ({ onGenerateLabel }) => {
       onSubmit={handleSubmit}
       style={{ display: "flex", flexDirection: "column", gap: "10px" }}
     >
+      {/* Campos del formulario */}
       <div>
         <label>
           Remitente:
@@ -172,12 +176,6 @@ const PackageForm = ({ onGenerateLabel }) => {
             <option value="16x16x16">16x16x16</option>
             <option value="18x18x18">18x18x18</option>
             <option value="20x20x20">20x20x20</option>
-            <option value="18x18x27">18x18x27</option>
-            <option value="22x22x22">22x22x22</option>
-            <option value="24x24x24">24x24x24</option>
-            <option value="24x24x30">24x24x30</option>
-            <option value="27x27x27">27x27x27</option>
-            <option value="30x30x30">30x30x30</option>
             <option value="otro">Otro</option>
           </select>
         </label>
