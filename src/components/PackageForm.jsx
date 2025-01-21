@@ -15,7 +15,10 @@ const PackageForm = ({ onGenerateLabel }) => {
   });
 
   // URL del backend desplegado en Render
-  const API_URL = "http://localhost:3000/api/packages";
+  const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "/api/packages"
+    : "http://localhost:3000/api/packages";
 
   // Maneja los cambios en los campos del formulario
   const handleChange = (e) => {
