@@ -1,2 +1,9 @@
+# Ignorar archivos y carpetas relacionadas con el frontend
 dist/
+vite.config.js
 node_modules/
+*.log
+.env.local
+.env.production.local
+.eslintrc.*
+package-lock.json
