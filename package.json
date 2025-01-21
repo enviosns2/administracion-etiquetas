@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "vite preview --host 0.0.0.0 --port 3000",
+    "start": "node ../backend/server.js", // Este comando ejecutará tu backend con el frontend incluido
     "lint": "eslint .",
     "preview": "vite preview --port ${PORT:-3000}"
   },
