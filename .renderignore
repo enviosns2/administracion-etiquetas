@@ -1,9 +1,12 @@
-# Ignorar archivos y carpetas relacionadas con el frontend
-dist/
-vite.config.js
+# Ignorar archivos y carpetas innecesarios para el despliegue en Render
 node_modules/
-*.log
-.env.local
-.env.production.local
+src/
+public/
+.vscode/
 .eslintrc.*
+vite.config.js
+*.log
 package-lock.json
+.env
+.env.*
+README.md
