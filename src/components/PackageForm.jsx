@@ -176,6 +176,12 @@ const PackageForm = ({ onGenerateLabel }) => {
             <option value="16x16x16">16x16x16</option>
             <option value="18x18x18">18x18x18</option>
             <option value="20x20x20">20x20x20</option>
+            <option value="20x20x20">18x18x27</option>
+            <option value="20x20x20">22x22x22</option>
+            <option value="20x20x20">24x24x24</option>
+            <option value="20x20x20">24x24x30</option>
+            <option value="20x20x20">27x27x27</option>
+            <option value="20x20x20">30x30x30</option>
             <option value="otro">Otro</option>
           </select>
         </label>
