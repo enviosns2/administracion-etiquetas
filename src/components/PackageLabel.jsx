@@ -73,6 +73,8 @@ const PackageLabel = ({ packageData }) => {
     yPosition += 10;
     doc.text(`PESO: ${packageData.weight} LB`, pageWidth / 2, yPosition, { align: "center" });
     yPosition += 10;
+    doc.text(`CANTIDAD: ${packageData.quantity}`, pageWidth / 2, yPosition, { align: "center" });
+    yPosition += 10;
     doc.text(`CÓDIGO ÚNICO: ${uniqueCode}`, pageWidth / 2, yPosition, { align: "center" });
     yPosition += 20;
 
@@ -116,6 +118,7 @@ const PackageLabel = ({ packageData }) => {
           : packageData.dimensions.toUpperCase()}
       </p>
       <p><strong>Peso:</strong> {packageData.weight} LB</p>
+      <p><strong>Cantidad:</strong> {packageData.quantity}</p>
 
       {/* Código único y código de barras */}
       <div>

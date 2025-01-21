@@ -15,7 +15,7 @@ const PackageForm = ({ onGenerateLabel }) => {
   });
 
   // URL del backend desplegado en Render
-  const API_URL = "https://administracion-etiquetas.onrender.com/api/packages";
+  const API_URL = "http://localhost:3000/api/packages";
 
   // Maneja los cambios en los campos del formulario
   const handleChange = (e) => {
@@ -38,54 +38,87 @@ const PackageForm = ({ onGenerateLabel }) => {
     return `${clientPrefix}-${cityPrefix}-${timestamp}-${randomString}`;
   };
 
+  // Limpia los datos del formulario
+  const resetForm = () => {
+    setFormData({
+      sender: "",
+      street: "",
+      postalCode: "",
+      city: "",
+      customCity: "",
+      dimensions: "",
+      customDimensions: "",
+      weight: "",
+      quantity: "",
+    });
+  };
+
+  // Validación de campos obligatorios
+  const isFormValid = () => {
+    const {
+      sender,
+      street,
+      postalCode,
+      city,
+      customCity,
+      dimensions,
+      customDimensions,
+      weight,
+      quantity,
+    } = formData;
+
+    return (
+      sender &&
+      street &&
+      postalCode &&
+      weight &&
+      quantity &&
+      (city !== "otro" || customCity) &&
+      (dimensions !== "otro" || customDimensions)
+    );
+  };
+
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación de campos obligatorios
-    if (
-      formData.sender &&
-      formData.street &&
-      formData.postalCode &&
-      (formData.city !== "otro" || formData.customCity) &&
-      (formData.dimensions !== "otro" || formData.customDimensions) &&
-      formData.weight &&
-      formData.quantity
-    ) {
-      const uniqueCode = generateUniqueCode(formData);
-
-      // Construir el paquete con los datos del formulario
-      const packageData = {
-        paquete_id: uniqueCode,
-        uniqueCode,
-        sender: formData.sender,
-        street: formData.street,
-        postalCode: formData.postalCode,
-        city: formData.city === "otro" ? formData.customCity : formData.city,
-        dimensions:
-          formData.dimensions === "otro"
-            ? formData.customDimensions
-            : formData.dimensions,
-        weight: formData.weight,
-        quantity: formData.quantity,
-      };
-
-      // Mostrar la etiqueta en el frontend
-      onGenerateLabel(packageData);
-
-      // Enviar los datos al backend
-      try {
-        const response = await axios.post(API_URL, packageData);
-        console.log("Paquete guardado en la base de datos:", response.data);
-        alert("Paquete guardado con éxito.");
-      } catch (error) {
-        console.error("Error al guardar el paquete:", error);
-        alert(
-          "Hubo un error al intentar guardar el paquete. Por favor, intenta nuevamente."
-        );
-      }
-    } else {
+    if (!isFormValid()) {
       alert("Por favor, completa todos los campos.");
+      return;
+    }
+
+    const uniqueCode = generateUniqueCode(formData);
+
+    // Construir el paquete con los datos del formulario
+    const packageData = {
+      paquete_id: uniqueCode,
+      uniqueCode,
+      sender: formData.sender,
+      street: formData.street,
+      postalCode: formData.postalCode,
+      city: formData.city === "otro" ? formData.customCity : formData.city,
+      dimensions:
+        formData.dimensions === "otro"
+          ? formData.customDimensions
+          : formData.dimensions,
+      weight: formData.weight,
+      quantity: formData.quantity,
+    };
+
+    // Mostrar la etiqueta en el frontend
+    onGenerateLabel(packageData);
+
+    // Enviar los datos al backend
+    try {
+      const response = await axios.post(API_URL, packageData);
+      console.log("Paquete guardado en la base de datos:", response.data);
+      alert("Paquete guardado con éxito.");
+      resetForm();
+    } catch (error) {
+      console.error("Error al guardar el paquete:", error);
+      alert(
+        "Hubo un error al intentar guardar el paquete. Por favor, intenta nuevamente."
+      );
     }
   };
 
@@ -176,12 +209,12 @@ const PackageForm = ({ onGenerateLabel }) => {
             <option value="16x16x16">16x16x16</option>
             <option value="18x18x18">18x18x18</option>
             <option value="20x20x20">20x20x20</option>
-            <option value="20x20x20">18x18x27</option>
-            <option value="20x20x20">22x22x22</option>
-            <option value="20x20x20">24x24x24</option>
-            <option value="20x20x20">24x24x30</option>
-            <option value="20x20x20">27x27x27</option>
-            <option value="20x20x20">30x30x30</option>
+            <option value="18x18x27">18x18x27</option>
+            <option value="22x22x22">22x22x22</option>
+            <option value="24x24x24">24x24x24</option>
+            <option value="24x24x30">24x24x30</option>
+            <option value="27x27x27">27x27x27</option>
+            <option value="30x30x30">30x30x30</option>
             <option value="otro">Otro</option>
           </select>
         </label>
