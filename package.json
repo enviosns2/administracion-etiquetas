@@ -23,13 +23,14 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "globals": "^15.0.0",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "rimraf": "^5.0.0"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && rm -rf backend/dist && cp -r dist backend/",
+    "build": "vite build && rimraf backend/dist && copyfiles 'dist/**/*' backend/dist",
     "start": "node backend/server.js",
     "lint": "eslint .",
-    "preview": "vite preview --port ${PORT:-3000}"
+    "preview": "vite preview --port 3000"
   }
 }
