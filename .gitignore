@@ -7,12 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Ignorar la carpeta dist de la raíz
+# Ignorar carpetas generadas por el build
 /dist
+/backend/dist
 /dist-ssr
-
-# Excluir específicamente la carpeta backend/dist
-!/backend/dist
 
 # Node modules
 /node_modules
@@ -28,3 +26,7 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Variables de entorno
+.env
+.env.local
