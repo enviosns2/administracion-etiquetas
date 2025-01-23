@@ -7,9 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Ignorar solo en la raíz
+# Ignorar la carpeta dist de la raíz
 /dist
 /dist-ssr
+
+# Excluir específicamente la carpeta backend/dist
+!/backend/dist
 
 # Node modules
 /node_modules
