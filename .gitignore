@@ -9,8 +9,10 @@ lerna-debug.log*
 
 # Ignorar carpetas generadas por el build
 /dist
-/backend/dist
 /dist-ssr
+
+# Asegurarse de que backend/dist NO sea ignorado
+!/backend/dist
 
 # Node modules
 /node_modules
