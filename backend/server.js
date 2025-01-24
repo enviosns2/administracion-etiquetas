@@ -1,5 +1,6 @@
-const path = require("path"); // Importar 'path' primero
-require("dotenv").config({ path: path.join(__dirname, "../.env") }); // Ruta ajustada para cargar .env desde la raíz
+const path = require("path");
+const fs = require("fs"); // Importar fs
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -13,11 +14,6 @@ console.log("Cargando variables de entorno desde .env...");
 console.log("MONGO_URI:", process.env.MONGO_URI || "No configurada");
 console.log("PORT:", process.env.PORT || "No configurado");
 console.log("VITE_API_URL:", process.env.VITE_API_URL || "No configurada");
-
-// Log inicial
-console.log(`Iniciando servidor en el entorno: ${process.env.NODE_ENV || "desarrollo"}`);
-console.log(`Variable PORT: ${process.env.PORT || "No configurada"}`);
-console.log(`MongoDB URI configurada: ${process.env.MONGO_URI ? "Sí" : "No"}`);
 
 // Middleware
 app.use(cors());
@@ -123,6 +119,6 @@ app.listen(PORT, (err) => {
   if (err) {
     console.error("Error al iniciar el servidor:", err.message);
   } else {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
   }
 });
