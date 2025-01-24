@@ -1,5 +1,5 @@
 const path = require("path");
-const fs = require("fs"); // Importar fs
+const fs = require("fs");
 require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const express = require("express");
@@ -9,22 +9,19 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Logs para verificar las variables de entorno
 console.log("Cargando variables de entorno desde .env...");
 console.log("MONGO_URI:", process.env.MONGO_URI || "No configurada");
 console.log("PORT:", process.env.PORT || "No configurado");
+console.log("NODE_ENV:", process.env.NODE_ENV || "No configurado");
 console.log("VITE_API_URL:", process.env.VITE_API_URL || "No configurada");
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configuración de Mongoose
 mongoose.set("strictQuery", true);
 mongoose.set("runValidators", true);
 
-// Conectar a MongoDB con reintentos automáticos
 let retryCount = 0;
 const MAX_RETRIES = 5;
 
@@ -46,12 +43,10 @@ const connectToDatabase = async () => {
 };
 connectToDatabase();
 
-// Eventos de conexión de MongoDB
 mongoose.connection.on("connected", () => console.log("Conexión a MongoDB establecida."));
 mongoose.connection.on("error", (err) => console.error("Error en la conexión a MongoDB:", err.message));
 mongoose.connection.on("disconnected", () => console.log("Desconectado de MongoDB."));
 
-// Esquema y modelo de MongoDB
 const PackageSchema = new mongoose.Schema({
   paquete_id: { type: String, required: true },
   estado_actual: { type: String, default: "Recibido" },
@@ -69,10 +64,8 @@ const PackageSchema = new mongoose.Schema({
 });
 const Package = mongoose.model("Estado", PackageSchema, "estados");
 
-// Rutas de la API
 app.get("/api", (req, res) => res.send("API funcionando correctamente"));
 
-// Crear un nuevo paquete
 app.post("/api/packages", async (req, res) => {
   try {
     console.log("Datos recibidos para crear paquete:", req.body);
@@ -96,13 +89,11 @@ app.post("/api/packages", async (req, res) => {
   }
 });
 
-// Verificación de salud para Render
 app.get("/healthz", (req, res) => {
   console.log("Verificación de salud ejecutada");
   res.status(200).send("OK");
 });
 
-// Configuración del frontend en producción
 if (process.env.NODE_ENV === "production") {
   console.log("Modo producción: Sirviendo archivos estáticos del frontend");
   const staticPath = path.join(__dirname, "dist");
@@ -110,18 +101,27 @@ if (process.env.NODE_ENV === "production") {
 
   app.get("*", (req, res) => {
     const indexPath = path.resolve(staticPath, "index.html");
-    if (fs.existsSync(indexPath)) {
+    fs.access(indexPath, fs.constants.F_OK, (err) => {
+      if (err) {
+        console.error("Archivo index.html no encontrado:", err.message);
+        return res.status(404).send("Archivo no encontrado");
+      }
       res.sendFile(indexPath);
-    } else {
-      res.status(404).send("Archivo no encontrado");
-    }
+    });
   });
 } else {
   console.log("Modo desarrollo: API lista para usarse");
   app.get("/", (req, res) => res.send("Servidor en desarrollo"));
 }
 
-// Iniciar el servidor
+process.on("uncaughtException", (err) => {
+  console.error("Excepción no controlada:", err.message);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("Promesa no manejada:", reason);
+});
+
 app.listen(PORT, (err) => {
   if (err) {
     console.error("Error al iniciar el servidor:", err.message);

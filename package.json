@@ -31,7 +31,7 @@
     "dev": "vite",
     "build": "vite build && cp -r dist backend/",
     "start": "node backend/server.js",
-    "render-start": "npm run build && npm run start",
+    "render-start": "node backend/server.js",
     "lint": "eslint .",
     "preview": "vite preview --port 3000"
   }
