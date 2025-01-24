@@ -25,16 +25,23 @@ mongoose.set("strictQuery", true);
 mongoose.set("runValidators", true);
 
 // Conectar a MongoDB con reintentos automáticos
+let retryCount = 0;
+const MAX_RETRIES = 5;
+
 const connectToDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("Conexión exitosa a MongoDB");
   } catch (err) {
-    console.error("Error al conectar con MongoDB. Reintentando en 5 segundos...", err.message);
-    setTimeout(connectToDatabase, 5000); // Reintentar después de 5 segundos
+    retryCount++;
+    console.error(`Error al conectar con MongoDB (Intento ${retryCount}):`, err.message);
+    if (retryCount < MAX_RETRIES) {
+      console.log("Reintentando conexión en 5 segundos...");
+      setTimeout(connectToDatabase, 5000);
+    } else {
+      console.error("Número máximo de reintentos alcanzado. Finalizando proceso.");
+      process.exit(1);
+    }
   }
 };
 connectToDatabase();
