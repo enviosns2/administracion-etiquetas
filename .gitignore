@@ -11,11 +11,14 @@ lerna-debug.log*
 /dist
 /dist-ssr
 
-# Asegurarse de que backend/dist NO sea ignorado
+# Asegurarse de que backend/dist y otros archivos en backend NO sean ignorados
 !/backend/dist
+!/backend/server.js
+!/backend/*.json
 
 # Node modules
 /node_modules
+/backend/node_modules
 *.local
 
 # Editor directories and files
