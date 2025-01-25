@@ -21,7 +21,19 @@ console.log("PORT:", PORT);
 console.log("NODE_ENV:", process.env.NODE_ENV || "No configurado");
 console.log("VITE_API_URL:", process.env.VITE_API_URL || "No configurada");
 
-// Middleware
+// Middleware para registrar todas las solicitudes entrantes
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Middleware general de manejo de errores
+app.use((err, req, res, next) => {
+  console.error("Error inesperado:", err.stack || err.message);
+  res.status(500).json({ error: "Ocurrió un error inesperado" });
+});
+
+// Middleware básico
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,6 +67,7 @@ mongoose.connection.on("connected", () => console.log("Conexión a MongoDB estab
 mongoose.connection.on("error", (err) => console.error("Error en la conexión a MongoDB:", err.message));
 mongoose.connection.on("disconnected", () => console.log("Desconectado de MongoDB."));
 
+// Esquema y modelo de MongoDB
 const PackageSchema = new mongoose.Schema({
   paquete_id: { type: String, required: true },
   estado_actual: { type: String, default: "Recibido" },
@@ -72,6 +85,7 @@ const PackageSchema = new mongoose.Schema({
 });
 const Package = mongoose.model("Estado", PackageSchema, "estados");
 
+// Rutas de la API
 app.get("/api", (req, res) => res.send("API funcionando correctamente"));
 
 app.post("/api/packages", async (req, res) => {
@@ -122,14 +136,16 @@ if (process.env.NODE_ENV === "production") {
   app.get("/", (req, res) => res.send("Servidor en desarrollo"));
 }
 
+// Manejadores de excepciones y promesas no controladas
 process.on("uncaughtException", (err) => {
-  console.error("Excepción no controlada:", err.message);
+  console.error("Excepción no controlada:", err.stack || err.message);
 });
 
 process.on("unhandledRejection", (reason) => {
   console.error("Promesa no manejada:", reason);
 });
 
+// Inicio del servidor
 app.listen(PORT, (err) => {
   if (err) {
     console.error("Error al iniciar el servidor:", err.message);
