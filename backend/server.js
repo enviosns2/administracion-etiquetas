@@ -7,18 +7,26 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT; // Sin valor por defecto
+const PORT = process.env.PORT;
 
+if (!PORT) {
+  console.error("Error: La variable de entorno PORT no está configurada.");
+  process.exit(1);
+}
+
+// Logs para verificar las variables de entorno
 console.log("Cargando variables de entorno desde .env...");
 console.log("MONGO_URI:", process.env.MONGO_URI || "No configurada");
-console.log("PORT:", process.env.PORT || "No configurado");
+console.log("PORT:", PORT);
 console.log("NODE_ENV:", process.env.NODE_ENV || "No configurado");
 console.log("VITE_API_URL:", process.env.VITE_API_URL || "No configurada");
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Configuración de Mongoose
 mongoose.set("strictQuery", true);
 mongoose.set("runValidators", true);
 
@@ -91,7 +99,7 @@ app.post("/api/packages", async (req, res) => {
 
 app.get("/healthz", (req, res) => {
   console.log("Verificación de salud ejecutada");
-  res.status(200).send("OK");
+  res.status(200).json({ status: "ok", timestamp: Date.now() });
 });
 
 if (process.env.NODE_ENV === "production") {
