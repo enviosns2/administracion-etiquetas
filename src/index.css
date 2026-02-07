@@ -28,30 +28,95 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  padding: 0;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: clamp(24px, 6vw, 3.2em);
   line-height: 1.1;
+}
+
+h2 {
+  font-size: clamp(18px, 5vw, 2.2em);
+  line-height: 1.2;
+}
+
+/* Estilos responsive para inputs y selects */
+input,
+select,
+textarea {
+  font-size: 16px; /* Previene zoom automático en iOS */
+  font-family: inherit;
+  max-width: 100%;
 }
 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  padding: clamp(0.5em, 2vw, 0.8em) clamp(0.8em, 3vw, 1.5em);
+  font-size: clamp(14px, 4vw, 1em);
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  min-height: 44px; /* Altura mínima para toque en móvil */
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Media queries para optimización de móvil */
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+  
+  body {
+    padding: 0;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 12px 0;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 15px;
+  }
+  
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,5 +129,12 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) {
+  button:hover {
+    border-color: transparent;
   }
 }

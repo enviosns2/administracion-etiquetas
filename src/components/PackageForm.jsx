@@ -125,67 +125,108 @@ const PackageForm = ({ onGenerateLabel }) => {
     }
   };
 
+  const formFieldStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "6px",
+    marginBottom: "clamp(8px, 2vw, 12px)",
+  };
+
+  const labelStyle = {
+    fontWeight: "600",
+    fontSize: "clamp(14px, 4vw, 16px)",
+    color: "#333",
+  };
+
+  const inputStyle = {
+    padding: "clamp(10px, 3vw, 12px)",
+    fontSize: "clamp(14px, 4vw, 16px)",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+    fontFamily: "inherit",
+    width: "100%",
+    boxSizing: "border-box",
+  };
+
+  const selectStyle = {
+    ...inputStyle,
+    cursor: "pointer",
+  };
+
+  const buttonStyle = {
+    marginTop: "clamp(16px, 4vw, 24px)",
+    padding: "clamp(12px, 3vw, 16px)",
+    fontSize: "clamp(16px, 4vw, 18px)",
+    fontWeight: "600",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+    width: "100%",
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
-      style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+      style={{ display: "flex", flexDirection: "column", gap: "clamp(8px, 2vw, 12px)" }}
     >
       {/* Campos del formulario */}
-      <div>
-        <label>
-          Remitente:
-          <input
-            type="text"
-            name="sender"
-            value={formData.sender}
-            onChange={handleChange}
-            placeholder="Nombre del remitente"
-            required
-          />
-        </label>
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Remitente:</label>
+        <input
+          type="text"
+          name="sender"
+          value={formData.sender}
+          onChange={handleChange}
+          placeholder="Nombre del remitente"
+          style={inputStyle}
+          required
+        />
       </div>
-      <div>
-        <label>
-          Calle y número:
-          <input
-            type="text"
-            name="street"
-            value={formData.street}
-            onChange={handleChange}
-            placeholder="Calle y número"
-            required
-          />
-        </label>
+      
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Calle y número:</label>
+        <input
+          type="text"
+          name="street"
+          value={formData.street}
+          onChange={handleChange}
+          placeholder="Calle y número"
+          style={inputStyle}
+          required
+        />
       </div>
-      <div>
-        <label>
-          Código postal:
-          <input
-            type="text"
-            name="postalCode"
-            value={formData.postalCode}
-            onChange={handleChange}
-            placeholder="Código postal"
-            required
-          />
-        </label>
+      
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Código postal:</label>
+        <input
+          type="text"
+          name="postalCode"
+          value={formData.postalCode}
+          onChange={handleChange}
+          placeholder="Código postal"
+          style={inputStyle}
+          required
+        />
       </div>
-      <div>
-        <label>
-          Ciudad:
-          <select
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecciona una opción</option>
-            <option value="Jalisco">Jalisco</option>
-            <option value="Michoacán">Michoacán</option>
-            <option value="Guanajuato">Guanajuato</option>
-            <option value="otro">Otro</option>
-          </select>
-        </label>
+      
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Ciudad:</label>
+        <select
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+          style={selectStyle}
+          required
+        >
+          <option value="">Selecciona una opción</option>
+          <option value="Jalisco">Jalisco</option>
+          <option value="Michoacán">Michoacán</option>
+          <option value="Guanajuato">Guanajuato</option>
+          <option value="otro">Otro</option>
+        </select>
         {formData.city === "otro" && (
           <input
             type="text"
@@ -193,35 +234,35 @@ const PackageForm = ({ onGenerateLabel }) => {
             value={formData.customCity}
             onChange={handleChange}
             placeholder="Especifica la ciudad"
-            style={{ marginTop: "5px" }}
+            style={{ ...inputStyle, marginTop: "8px" }}
             required
           />
         )}
       </div>
-      <div>
-        <label>
-          Dimensiones (LxWxH en pulgadas):
-          <select
-            name="dimensions"
-            value={formData.dimensions}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecciona una opción</option>
-            <option value="14x14x14">14x14x14</option>
-            <option value="16x16x16">16x16x16</option>
-            <option value="18x18x18">18x18x18</option>
-            <option value="20x20x20">20x20x20</option>
-            <option value="18x18x27">18x18x27</option>
-            <option value="22x22x22">22x22x22</option>
-            <option value="24x24x24">24x24x24</option>
-            <option value="24x24x30">24x24x30</option>
-            <option value="27x27x27">27x27x27</option>
-            <option value="30x30x30">30x30x30</option>
-            <option value="28x28x34">28x28x34</option>
-            <option value="otro">Otro</option>
-          </select>
-        </label>
+      
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Dimensiones (LxWxH en pulgadas):</label>
+        <select
+          name="dimensions"
+          value={formData.dimensions}
+          onChange={handleChange}
+          style={selectStyle}
+          required
+        >
+          <option value="">Selecciona una opción</option>
+          <option value="14x14x14">14x14x14</option>
+          <option value="16x16x16">16x16x16</option>
+          <option value="18x18x18">18x18x18</option>
+          <option value="20x20x20">20x20x20</option>
+          <option value="18x18x27">18x18x27</option>
+          <option value="22x22x22">22x22x22</option>
+          <option value="24x24x24">24x24x24</option>
+          <option value="24x24x30">24x24x30</option>
+          <option value="27x27x27">27x27x27</option>
+          <option value="30x30x30">30x30x30</option>
+          <option value="28x28x34">28x28x34</option>
+          <option value="otro">Otro</option>
+        </select>
         {formData.dimensions === "otro" && (
           <input
             type="text"
@@ -229,38 +270,44 @@ const PackageForm = ({ onGenerateLabel }) => {
             value={formData.customDimensions}
             onChange={handleChange}
             placeholder="Ejemplo: 25x25x25"
-            style={{ marginTop: "5px" }}
+            style={{ ...inputStyle, marginTop: "8px" }}
             required
           />
         )}
       </div>
-      <div>
-        <label>
-          Peso (lb):
-          <input
-            type="number"
-            name="weight"
-            value={formData.weight}
-            onChange={handleChange}
-            placeholder="Peso en libras"
-            required
-          />
-        </label>
+      
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Peso (lb):</label>
+        <input
+          type="number"
+          name="weight"
+          value={formData.weight}
+          onChange={handleChange}
+          placeholder="Peso en libras"
+          style={inputStyle}
+          required
+        />
       </div>
-      <div>
-        <label>
-          Cantidad:
-          <input
-            type="number"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            placeholder="Cantidad de paquetes"
-            required
-          />
-        </label>
+      
+      <div style={formFieldStyle}>
+        <label style={labelStyle}>Cantidad:</label>
+        <input
+          type="number"
+          name="quantity"
+          value={formData.quantity}
+          onChange={handleChange}
+          placeholder="Cantidad de paquetes"
+          style={inputStyle}
+          required
+        />
       </div>
-      <button type="submit" style={{ marginTop: "10px" }}>
+      
+      <button 
+        type="submit" 
+        style={buttonStyle}
+        onMouseEnter={(e) => e.target.style.backgroundColor = "#45a049"}
+        onMouseLeave={(e) => e.target.style.backgroundColor = "#4CAF50"}
+      >
         Generar Etiqueta
       </button>
     </form>

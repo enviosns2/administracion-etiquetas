@@ -1,8 +1,31 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: clamp(15px, 5vw, 2rem);
   text-align: center;
+}
+
+/* Media queries para optimización móvil */
+@media (max-width: 480px) {
+  #root {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 15px;
+  }
+  
+  h1, h2 {
+    font-size: clamp(20px, 5vw, 28px) !important;
+  }
+}
+
+@media (min-width: 769px) {
+  #root {
+    max-width: 1280px;
+  }
 }
 
 .logo {
@@ -34,9 +57,37 @@
 }
 
 .card {
-  padding: 2em;
+  padding: clamp(12px, 4vw, 2em);
 }
 
 .read-the-docs {
   color: #888;
+}
+
+/* Estilos para inputs y formularios responsive */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: clamp(14px, 4vw, 16px);
+  padding: clamp(10px, 3vw, 12px);
+  min-height: 44px; /* Altura mínima recomendada para móvil */
+}
+
+button {
+  min-height: 44px; /* Altura mínima recomendada para móvil */
+  min-width: 44px; /* Ancho mínimo recomendable para móvil */
+  font-size: clamp(14px, 4vw, 16px);
+}
+
+/* Touch-friendly spacing for mobile */
+@media (max-width: 480px) {
+  input[type="text"],
+  input[type="number"],
+  select,
+  button {
+    min-height: 48px;
+    margin-bottom: 8px;
+  }
 }

@@ -96,43 +96,120 @@ const PackageLabel = ({ packageData }) => {
   };
 
   if (!packageData) {
-    return <p>No hay datos para mostrar. Completa el formulario para generar una etiqueta.</p>;
+    return (
+      <p style={{ fontSize: "clamp(14px, 4vw, 16px)", color: "#666" }}>
+        No hay datos para mostrar. Completa el formulario para generar una etiqueta.
+      </p>
+    );
   }
 
+  const labelStyle = {
+    fontSize: "clamp(14px, 4vw, 16px)",
+    margin: "clamp(6px, 2vw, 10px) 0",
+  };
+
+  const strongStyle = {
+    fontWeight: "600",
+  };
+
+  const buttonsContainerStyle = {
+    marginTop: "clamp(16px, 4vw, 20px)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "clamp(8px, 2vw, 12px)",
+  };
+
+  const buttonStyle = {
+    flex: 1,
+    padding: "clamp(12px, 3vw, 16px)",
+    fontSize: "clamp(14px, 4vw, 16px)",
+    fontWeight: "600",
+    backgroundColor: "#2196F3",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+    minHeight: "44px",
+    width: "100%",
+  };
+
+  const barcodeContainerStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "clamp(16px, 4vw, 20px) 0",
+    padding: "clamp(12px, 3vw, 16px)",
+    backgroundColor: "#f5f5f5",
+    borderRadius: "4px",
+    overflow: "auto",
+  };
+
   return (
-    <div>
-      <h2>Etiqueta Generada</h2>
-      <p><strong>Remitente:</strong> {packageData.sender.toUpperCase()}</p>
-      <p><strong>Calle y número:</strong> {packageData.street.toUpperCase()}</p>
-      <p><strong>Código postal:</strong> {packageData.postalCode.toUpperCase()}</p>
-      <p>
-        <strong>Ciudad:</strong>{" "}
+    <div style={{ width: "100%", padding: "0" }}>
+      <h2 style={{ fontSize: "clamp(18px, 5vw, 24px)", marginBottom: "clamp(12px, 3vw, 16px)" }}>
+        Etiqueta Generada
+      </h2>
+      
+      <p style={labelStyle}>
+        <span style={strongStyle}>Remitente:</span> {packageData.sender.toUpperCase()}
+      </p>
+      <p style={labelStyle}>
+        <span style={strongStyle}>Calle y número:</span> {packageData.street.toUpperCase()}
+      </p>
+      <p style={labelStyle}>
+        <span style={strongStyle}>Código postal:</span> {packageData.postalCode.toUpperCase()}
+      </p>
+      <p style={labelStyle}>
+        <span style={strongStyle}>Ciudad:</span>{" "}
         {packageData.city === "otro"
           ? packageData.customCity.toUpperCase()
           : packageData.city.toUpperCase()}
       </p>
-      <p>
-        <strong>Dimensiones:</strong>{" "}
+      <p style={labelStyle}>
+        <span style={strongStyle}>Dimensiones:</span>{" "}
         {packageData.dimensions === "otro"
           ? packageData.customDimensions.toUpperCase()
           : packageData.dimensions.toUpperCase()}
       </p>
-      <p><strong>Peso:</strong> {packageData.weight} LB</p>
-      <p><strong>Cantidad:</strong> {packageData.quantity}</p>
+      <p style={labelStyle}>
+        <span style={strongStyle}>Peso:</span> {packageData.weight} LB
+      </p>
+      <p style={labelStyle}>
+        <span style={strongStyle}>Cantidad:</span> {packageData.quantity}
+      </p>
 
       {/* Código único y código de barras */}
-      <div>
-        <p><strong>Código único:</strong> {uniqueCode}</p>
-        <canvas ref={barcodeCanvasRef}></canvas>
+      <div style={{ margin: "clamp(12px, 3vw, 16px) 0" }}>
+        <p style={labelStyle}>
+          <span style={strongStyle}>Código único:</span> <br />
+          <span style={{ fontFamily: "monospace", fontSize: "clamp(12px, 3vw, 14px)", fontWeight: "600" }}>
+            {uniqueCode}
+          </span>
+        </p>
+        
+        <div style={barcodeContainerStyle}>
+          <canvas ref={barcodeCanvasRef}></canvas>
+        </div>
       </div>
 
       {/* Botones para descargar PDF e imprimir */}
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={handleGeneratePDF} style={{ marginRight: "10px" }}>
-          Descargar como PDF
+      <div style={buttonsContainerStyle}>
+        <button 
+          onClick={handleGeneratePDF} 
+          style={buttonStyle}
+          onMouseEnter={(e) => e.target.style.backgroundColor = "#0b7dda"}
+          onMouseLeave={(e) => e.target.style.backgroundColor = "#2196F3"}
+        >
+          📥 Descargar como PDF
         </button>
-        <button onClick={handlePrint}>
-          Imprimir Etiqueta
+        <button 
+          onClick={handlePrint}
+          style={{ ...buttonStyle, backgroundColor: "#4CAF50" }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = "#45a049"}
+          onMouseLeave={(e) => e.target.style.backgroundColor = "#4CAF50"}
+        >
+          🖨️ Imprimir Etiqueta
         </button>
       </div>
     </div>
