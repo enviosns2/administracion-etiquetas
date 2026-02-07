@@ -43,6 +43,10 @@ const PackageLabel = ({ packageData }) => {
     yPosition += 15;
 
     doc.setFontSize(14); // Ajuste de tamaño del texto
+    doc.text(`PAÍS: ${packageData.country || "N/A"}`, pageWidth / 2, yPosition, { align: "center" });
+    yPosition += 10;
+    doc.text(`AGENCIA: ${packageData.agency || "N/A"}`, pageWidth / 2, yPosition, { align: "center" });
+    yPosition += 10;
     doc.text(`REMITE: ${packageData.sender.toUpperCase()}`, pageWidth / 2, yPosition, { align: "center" });
     yPosition += 10;
     doc.text(`CALLE Y NÚMERO: ${packageData.street.toUpperCase()}`, pageWidth / 2, yPosition, { align: "center" });
@@ -151,6 +155,12 @@ const PackageLabel = ({ packageData }) => {
         Etiqueta Generada
       </h2>
       
+      <p style={labelStyle}>
+        <span style={strongStyle}>País:</span> {packageData.country || "N/A"}
+      </p>
+      <p style={labelStyle}>
+        <span style={strongStyle}>Agencia:</span> {packageData.agency || "N/A"}
+      </p>
       <p style={labelStyle}>
         <span style={strongStyle}>Remitente:</span> {packageData.sender.toUpperCase()}
       </p>
